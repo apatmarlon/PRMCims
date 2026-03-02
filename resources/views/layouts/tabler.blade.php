@@ -35,8 +35,8 @@
             height: 100%;
             background: url('{{ asset('assets/img/automotive_bg.png') }}') no-repeat center center fixed;
             background-size: cover;
-            filter: blur(1px); /* increased blur strength */
-            opacity: 1; /* 85% visible */
+            filter: blur(50px); /* increased blur strength */
+            opacity: 0.69; /* 85% visible */
             z-index: -1; /* stays behind all content */
             }
             .product-suggestions {
