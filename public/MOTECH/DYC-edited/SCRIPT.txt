@@ -1,0 +1,251 @@
+INSERT INTO order_details
+    (order_id, product_id, quantity, unitcost, total, created_at, updated_at)
+SELECT 
+    o.id AS order_id,
+    p.id AS product_id,
+    s.quantity,
+    s.unit_cost,
+    s.total,
+    s.created_at,
+    s.updated_at
+FROM sell s
+LEFT JOIN orders o 
+    ON o.invoice_no COLLATE utf8mb4_unicode_ci
+       = s.invoice_no COLLATE utf8mb4_unicode_ci
+INNER JOIN products p 
+    ON p.code COLLATE utf8mb4_unicode_ci
+       = s.SKU COLLATE utf8mb4_unicode_ci;
+
+
+
+INSERT INTO purchase_details
+    (purchase_id, product_id, quantity, unitcost, total, created_at, updated_at)
+SELECT 
+    o.id AS purchase_id,
+    p.id AS product_id,
+    s.quantity,
+    s.unitcost,
+    s.total,
+    o.created_at,
+    o.updated_at
+FROM purchases_product s
+LEFT JOIN purchases o 
+    ON o.purchase_no
+       = s.purchase_no
+INNER JOIN products p 
+    ON p.code
+       = s.code;
+			 
+ALTER TABLE purchases_product
+CONVERT TO CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+
+UPDATE products
+INNER JOIN categories
+    ON products.category_name = categories.name
+SET products.category_id = categories.id;
+
+UPDATE products
+INNER JOIN units
+    ON products.unit_name = units.name
+SET products.unit_id = units.id;
+
+UPDATE products
+INNER JOIN brands
+    ON products.brand_name COLLATE utf8mb4_unicode_ci = brands.name COLLATE utf8mb4_unicode_ci
+SET products.brand_id = brands.id;
+
+UPDATE purchases
+INNER JOIN suppliers
+    ON purchases.supplier_name = suppliers.name
+SET purchases.supplier_id = suppliers.id;
+
+
+ALTER TABLE users IMPORT TABLESPACE;
+ALTER TABLE orders IMPORT TABLESPACE;
+
+ALTER TABLE brands IMPORT TABLESPACE;
+ALTER TABLE categories IMPORT TABLESPACE;
+ALTER TABLE failed_jobs IMPORT TABLESPACE;
+ALTER TABLE migrations IMPORT TABLESPACE;
+ALTER TABLE notifications IMPORT TABLESPACE;
+ALTER TABLE order_details IMPORT TABLESPACE;
+ALTER TABLE purchases_product IMPORT TABLESPACE;
+ALTER TABLE purchase_details IMPORT TABLESPACE;
+ALTER TABLE purchases IMPORT TABLESPACE;
+
+ALTER TABLE quotation_details IMPORT TABLESPACE;
+ALTER TABLE sell IMPORT TABLESPACE;
+ALTER TABLE shoppingcart IMPORT TABLESPACE;
+ALTER TABLE suppliers IMPORT TABLESPACE;
+ALTER TABLE units IMPORT TABLESPACE;
+
+ALTER TABLE products IMPORT TABLESPACE;
+ALTER TABLE customers IMPORT TABLESPACE;
+ALTER TABLE quotations IMPORT TABLESPACE;
+
+UPDATE order_details od
+JOIN orders o ON od.order_id = o.id
+SET 
+    od.created_at = o.order_date,
+    od.updated_at = o.order_date
+WHERE 
+    od.created_at = '0000-00-00 00:00:00'
+AND od.updated_at = '0000-00-00 00:00:00';
+
+----------------------------------------------------- .bat
+@echo off
+:: Set variables
+set "DB_USER=root"
+set "DB_PASS=your_password"
+set "DB_NAME=ims"
+set "BACKUP_PATH=D:\SAMPLE_SQL_BACKUP"
+
+:: Create backup folder if it doesn't exist
+if not exist "%BACKUP_PATH%" mkdir "%BACKUP_PATH%"
+
+:: Robust Date Generation (Works on all Windows Regional settings)
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set "dt=%%I"
+set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
+set "FILENAME=%DB_NAME%_%YYYY%-%MM%-%DD%.sql"
+
+:: Run mysqldump
+"C:\xampp\mysql\bin\mysqldump.exe" -u%DB_USER% -p%DB_PASS% %DB_NAME% > "%BACKUP_PATH%\%FILENAME%"
+
+:: Auto-close after execution
+exit
+
+
+echo Backup completed: %FILENAME%
+pause
+----------------------------------------------------
+
+2. Schedule the Task
+To make this run every day automatically, follow these steps in Windows Task Scheduler: 
+Open Task Scheduler: Press Win + R, type taskschd.msc, and hit Enter.
+Create Basic Task: Click Create Basic Task in the right-hand panel.
+Trigger: Select Daily and set your preferred time (e.g., midnight).
+Action: Select Start a program and browse to select the .bat file you just created.
+Privileges: In the task properties, ensure Run with highest privileges is checked to avoid permission issues. 
+
+---------------------------------------------------------
+
+CREATE TABLE `order_returns` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `order_id` BIGINT UNSIGNED NOT NULL,
+    `customer_id` BIGINT UNSIGNED NOT NULL,
+    `total_refund` DECIMAL(12, 2) NOT NULL,
+    `reason` TEXT DEFAULT NULL,
+    `processed_by` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `order_returns_order_id_foreign` 
+        FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) 
+        ON DELETE CASCADE,
+    CONSTRAINT `order_returns_customer_id_foreign` 
+        FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+---------------------------------------------------------
+CREATE TABLE `order_return_details` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `order_return_id` BIGINT UNSIGNED NOT NULL,
+    `product_id` BIGINT UNSIGNED NOT NULL,
+    `quantity` INT NOT NULL,
+    `unit_price` DECIMAL(12, 2) NOT NULL,
+    `total` DECIMAL(12, 2) NOT NULL,
+    `created_at` TIMESTAMP NULL DEFAULT NULL,
+    `updated_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `order_return_details_order_return_id_foreign` 
+        FOREIGN KEY (`order_return_id`) REFERENCES `order_returns` (`id`) 
+        ON DELETE CASCADE,
+    CONSTRAINT `order_return_details_product_id_foreign` 
+        FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+----------------------------------------------------------
+
+ALTER TABLE `order_details` 
+ADD COLUMN `returned_quantity` INT NOT NULL DEFAULT 0 
+AFTER `quantity`;
+
+ALTER TABLE products 
+ADD COLUMN margin_percent DECIMAL(8, 2) NULL,
+ADD COLUMN margin_amount DECIMAL(10, 2) NULL;
+----------------------------------------------------------
+ALTER TABLE order_details
+MODIFY order_id BIGINT UNSIGNED NOT NULL;
+
+ALTER TABLE order_details
+ADD CONSTRAINT fk_order_details_order
+FOREIGN KEY (order_id) REFERENCES orders(id)
+ON DELETE CASCADE;
+
+ALTER TABLE `order_details` 
+ADD COLUMN `order_date` date NULL;
+
+UPDATE order_details od
+JOIN orders o ON o.id = od.order_id
+SET od.order_date = o.order_date;
+
+UPDATE purchases
+SET payment_status = 0;
+
+
+------------------------------------------------------------------------
+
+CREATE TABLE `customer_statement_accounts` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `customer_id` BIGINT UNSIGNED NOT NULL,
+    `beginning_balance` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `start_date` DATE NULL,
+    `end_date` DATE NULL,
+    `created_at` TIMESTAMP NULL,
+    `updated_at` TIMESTAMP NULL,
+    CONSTRAINT `customer_statement_accounts_customer_id_foreign` 
+        FOREIGN KEY (`customer_id`) 
+        REFERENCES `customers` (`id`) 
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `customer_statement_transactions` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `customer_statement_account_id` BIGINT UNSIGNED NOT NULL,
+    `transaction_date` DATE NOT NULL,
+    `ref_no` VARCHAR(255) NULL,
+    `due_date` DATE NULL,
+    `description` VARCHAR(255) NOT NULL,
+    `debit` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `credit` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `balance` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+    `created_at` TIMESTAMP NULL,
+    `updated_at` TIMESTAMP NULL,
+    CONSTRAINT `cst_account_id_foreign` 
+        FOREIGN KEY (`customer_statement_account_id`) 
+        REFERENCES `customer_statement_accounts` (`id`) 
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-----------------------------------------------
+
+UPDATE customer_statement_transactions t
+JOIN (
+    SELECT
+        t2.id,
+        (
+            a.beginning_balance +
+            SUM(t2.debit - t2.credit) OVER (
+                PARTITION BY t2.customer_statement_account_id
+                ORDER BY t2.transaction_date, t2.id
+                ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            )
+        ) AS correct_balance
+    FROM customer_statement_transactions t2
+    JOIN customer_statement_accounts a
+        ON a.id = t2.customer_statement_account_id
+) x ON x.id = t.id
+SET t.balance = x.correct_balance;
