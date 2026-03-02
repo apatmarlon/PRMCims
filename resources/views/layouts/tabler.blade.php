@@ -22,7 +22,7 @@
         }
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
-            background: url('{{ asset('assets/img/automotive_bg.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/img/automotive_bg.png') }}') no-repeat center center fixed;
             background-size: cover;
             background-attachment: fixed;
             }
@@ -33,10 +33,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('{{ asset('assets/img/automotive_bg.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/img/automotive_bg.png') }}') no-repeat center center fixed;
             background-size: cover;
-            filter: blur(50px); /* increased blur strength */
-            opacity: 0.85; /* 85% visible */
+            filter: blur(1px); /* increased blur strength */
+            opacity: 1; /* 85% visible */
             z-index: -1; /* stays behind all content */
             }
             .product-suggestions {
