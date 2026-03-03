@@ -33,7 +33,7 @@
 
                                 <img
                                     class="img-account-profile mb-2 bg-black"
-                                    src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/img/products/default.webp') }}"
+                                    src="{{ $product->product_image ? asset('storage/products/'.$product->product_image) : asset('assets/img/products/default.jpg') }}"
                                     id="image-preview"
                                 >
 

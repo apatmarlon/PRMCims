@@ -27,7 +27,7 @@
                                 {{ __('Product Image') }}
                             </h3>
 
-                            <img class="img-account-profile mb-2 bg-black" src="{{ asset('assets/img/products/default.webp') }}" alt="" id="image-preview" />
+                            <img class="img-account-profile mb-2 bg-black" src="{{ asset('assets/img/products/default.jpg') }}" alt="" id="image-preview" />
                         </div>
                     </div>
                 </div>
