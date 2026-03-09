@@ -23,7 +23,7 @@
 </head>
 
 <div class="page page-center" 
-     style="background-image: url('{{ asset('assets/img/automotive_bg.png') }}');
+     style="background-image: url('{{ asset('assets/img/ldn.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
