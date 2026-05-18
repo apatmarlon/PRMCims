@@ -22,7 +22,6 @@
         }
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
-            background: url('{{ asset('assets/img/ldn.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             background-attachment: fixed;
             }
@@ -36,7 +35,7 @@
             background: url('{{ asset('assets/img/ldn.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             /*filter: blur(50px); increased blur strength */
-            opacity: 0.69; /* 85% visible */
+            opacity: 0.49; /* 85% visible */
             z-index: -1; /* stays behind all content */
             }
             .product-suggestions {
