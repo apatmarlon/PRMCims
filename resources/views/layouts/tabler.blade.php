@@ -65,6 +65,16 @@
             .list-group-item.position-relative:hover .product-hover-details-overflow {
                 display: block;
             }
+             .datatable td,
+    .datatable th {
+        padding: 4px 8px !important;
+        font-size: 13px;
+        line-height: 1.2;
+    }
+
+    .datatable tr {
+        height: 32px;
+    }
                     
     </style>
 

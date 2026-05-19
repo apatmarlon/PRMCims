@@ -93,7 +93,7 @@ class ProductController extends Controller
         // Generate a barcode
         $generator = new BarcodeGeneratorHTML();
 
-        $barcode = $generator->getBarcode($product->code, $generator::TYPE_CODE_128);
+        $barcode = $generator->getBarcode($product->id, $generator::TYPE_CODE_128);
 
         return view('products.show', [
             'product' => $product,

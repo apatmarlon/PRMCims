@@ -18,6 +18,7 @@ class Product extends Model
         'slug',
         'code',
         'quantity',
+        'customer_id',
         'quantity_alert',
         'buying_price',
         'selling_price',
@@ -114,8 +115,8 @@ class Product extends Model
                 $cat->where('name', 'like', "%{$term}%");
             })
 
-            ->orWhereHas('supplier', function ($sup) use ($term) {
-                $sup->where('name', 'like', "%{$term}%");
+            ->orWhereHas('customer', function ($cust) use ($term) {
+                $cust->where('name', 'like', "%{$term}%");
             })
 
             ->orWhereHas('brand', function ($brand) use ($term) {
@@ -128,9 +129,9 @@ class Product extends Model
 
         });
     }
-    public function supplier(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
     public function returnDetails()
     {

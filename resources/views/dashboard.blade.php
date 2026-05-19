@@ -24,7 +24,7 @@
                         </a>
                         <a href="{{ route('orders.create') }}" class="btn btn-primary d-none d-sm-inline-block">
                             <x-icon.plus/>
-                            Create new Sale
+                            Create new Order
                         </a>
                         <a href="{{ route('orders.create') }}" class="btn btn-primary d-sm-none btn-icon" aria-label="Create new report">
                             <x-icon.plus/>
@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                {{ $orders }} Sales
+                                                {{ $orders }} Orders
                                             </div>
                                             <div class="text-muted">
                                                 {{ $completedOrders }} {{ __('completed') }}

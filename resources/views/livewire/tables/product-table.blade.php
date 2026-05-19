@@ -56,7 +56,7 @@
     <x-spinner.loading-spinner/>
 
     <div class="table-responsive">
-        <table wire:loading.remove class="table table-bordered card-table table-vcenter text-nowrap datatable">
+        <table wire:loading.remove class="table table-bordered table-sm card-table table-vcenter text-nowrap datatable">
             <thead class="thead-light">
                 <tr>
                     <th class="align-middle text-center w-1">
@@ -68,17 +68,10 @@
                             @include('inclues._sort-icon', ['field' => 'name'])
                         </a>
                     </th>
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('code')" href="#" role="button">
-                            {{ __('Code') }}
-                            @include('inclues._sort-icon', ['field' => 'code'])
-                        </a>
-                    </th>
-                   
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('brand_id')" href="#" role="button">
-                            {{ __('Brand') }}
-                            @include('inclues._sort-icon', ['field' => 'brand_id'])
+                     <th scope="col" class="align-middle text-center">
+                        <a wire:click.prevent="sortBy('customer_id')" href="#" role="button">
+                            {{ __('Hospital') }}
+                            @include('inclues._sort-icon', ['field' => 'customer_id'])
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
@@ -94,27 +87,9 @@
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('supplier_id')" href="#" role="button">
-                            {{ __('Supplier') }}
-                            @include('inclues._sort-icon', ['field' => 'supplier_id'])
-                        </a>
-                    </th>
-                    <th scope="col" class="align-middle text-center">
                         <a wire:click.prevent="sortBy('buying_price')" href="#" role="button">
                             {{ __('Unit Cost') }}
                             @include('inclues._sort-icon', ['field' => 'buying_price'])
-                        </a>
-                    </th>
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('margin_percent')" href="#" role="button">
-                            {{ __('Margin %') }}
-                            @include('inclues._sort-icon', ['field' => 'margin_percent'])
-                        </a>
-                    </th>
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('selling_price')" href="#" role="button">
-                            {{ __('Selling Price') }}
-                            @include('inclues._sort-icon', ['field' => 'selling_price'])
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
@@ -145,12 +120,8 @@
                     <td class="align-middle">
                         {{ $product->name }}
                     </td>
-                    <td class="align-middle text-center">
-                        {{ $product->code }}
-                    </td>
-                    
-                    <td class="align-middle text-center">
-                        {{ $product->brand?->name ?? '' }}
+                     <td class="align-middle">
+                        {{ $product->customer?->name ?? '' }}
                     </td>
                     <td class="align-middle text-center">
                         {{ $product->category?->name ?? '' }}
@@ -158,17 +129,8 @@
                     <td class="align-middle text-center">
                         {{ $product->unit?->name ?? '' }}
                     </td>
-                     <td class="align-middle text-center">
-                        {{ $product->supplier?->name ?? '' }}
-                    </td>
                     <td class="align-middle text-center">
                         {{ Number::currency($product->buying_price, 'PHP') }}
-                    </td>
-                    <td class="align-middle text-center">
-                        {{ $product->margin_percent }}%
-                    </td>
-                    <td class="align-middle text-center">
-                        {{ Number::currency($product->selling_price, 'PHP') }}
                     </td>
                     <td class="align-middle text-center">
                         {{ $product->quantity }}
@@ -194,7 +156,7 @@
 
                     <td class="align-middle text-center" style="width: 10%">
                         <x-button.show class="btn-icon" route="{{ route('products.show', $product) }}"/>
-                        <x-button.edit class="btn-icon" route="{{ route('products.edit', $product) }}"/>
+                        <x-button.edit class="btn-icon " route="{{ route('products.edit', $product) }}"/>
                         <x-button.history class="btn-icon bg-green" :href="route('products.history', $product)"/>
                     </td>
                 </tr>

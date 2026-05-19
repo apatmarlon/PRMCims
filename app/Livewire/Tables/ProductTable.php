@@ -10,7 +10,7 @@ class ProductTable extends Component
 {
     use WithPagination;
 
-    public $perPage = 25;
+    public $perPage = 15;
 
     public $search = '';
 
@@ -36,7 +36,7 @@ class ProductTable extends Component
     public function render()
     {
         $query = Product::query()
-            ->with(['category', 'unit', 'brand', 'supplier'])
+            ->with(['category', 'unit', 'brand', 'customer'])
             ->search($this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
 
