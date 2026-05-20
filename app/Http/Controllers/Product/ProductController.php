@@ -31,6 +31,7 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $categories = Category::all(['id', 'name']);
+        $customers = Customer::all(['id', 'name']);
         $units = Unit::all(['id', 'name']);
         $brands = Brand::all(['id', 'name']); // Fetch all brands
 
@@ -44,6 +45,7 @@ class ProductController extends Controller
 
         return view('products.create', [
             'categories' => $categories,
+            'customers' => $customers,
             'units' => $units,
             'brands' => $brands, // Pass brands to the view
             'suppliers'  => Supplier::select('id','name')->orderBy('name')->get(),
@@ -77,7 +79,7 @@ class ProductController extends Controller
 
             return redirect()
                 ->back()
-                ->with('success', 'Product has been created with code: ' . $product->code);
+                ->with('success', 'Product has been created with id: ' . $product->id);
 
         } catch (\Exception $e) {
             // Handle any unexpected errors
@@ -108,6 +110,7 @@ class ProductController extends Controller
             'units' => Unit::all(),
             'brands' => Brand::all(['id', 'name']), // <-- add this line
             'suppliers'  => Supplier::select('id','name')->orderBy('name')->get(),
+            'customers'  => Customer::select('id','name')->orderBy('name')->get(),
             'product' => $product
         ]);
     }

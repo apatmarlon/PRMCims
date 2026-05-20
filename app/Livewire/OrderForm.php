@@ -21,22 +21,22 @@ class OrderForm extends Component
     public string $order_date;
     #[Validate('Required')]
     public int $taxes = 0;
-
+    public $customer_id;
     public array $invoiceProducts = [];
 
     public array $productSearch = [];
     public array $productSuggestions = [];
-
+    protected $listeners = ['setCustomerId'];
     #[Validate('required', message: 'Please select products')]
     public Collection $allProducts;
 
-    public function mount($cartInstance): void
+   public function mount($cartInstance, $customerId = null): void
     {
         $this->cart_instance = $cartInstance;
 
-        $this->allProducts = Product::all();
+        $this->customer_id = $customerId;
 
-        //$cart_items = Cart::instance($this->cart_instance)->content();
+        $this->allProducts = Product::all();
     }
 
     public function render(): View
@@ -57,7 +57,24 @@ class OrderForm extends Component
             'cart_items' => $cart_items,
         ]);
     }
+  public function setCustomerId($customerId = null)
+    {
+        if (is_array($customerId)) {
+            $customerId = $customerId['customerId'] ?? null;
+        }
 
+        $this->customer_id = $customerId;
+
+        $this->invoiceProducts = [];
+        $this->productSearch = [];
+        $this->productSuggestions = [];
+    }
+    public function updatedCustomerId()
+    {
+        $this->invoiceProducts = [];
+        $this->productSearch = [];
+        $this->productSuggestions = [];
+    }
     public function addProduct(): void
     {
         foreach ($this->invoiceProducts as $key => $invoiceProduct) {
@@ -221,14 +238,18 @@ class OrderForm extends Component
         return $this->calculateSubtotal()
             * (1 + ($taxRate / 100));
     }
-    public function updatedProductSearch($value, $key)
+   public function updatedProductSearch($value, $key)
     {
         if (strlen($value) < 2) {
             $this->productSuggestions[$key] = [];
             return;
         }
 
-        $this->productSuggestions[$key] = Product::where('name', 'like', "%{$value}%")
+        $customerId = $this->customer_id;
+
+        $this->productSuggestions[$key] = Product::where('customer_id', $customerId)
+            ->where('quantity', '>', 0) // Hide zero stock
+            ->where('name', 'like', "%{$value}%")
             ->get();
     }
     public function selectProduct($index, $productId)

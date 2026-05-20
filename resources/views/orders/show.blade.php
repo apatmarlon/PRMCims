@@ -138,26 +138,7 @@
                                     {{ number_format($subTotal, 2) }}
                                 </td>
                             </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">Markup</td>
-                                <td class="text-center">
-                                    {{ number_format($totalMarkup, 2) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">
-                                    Payed amount
-                                </td>
-                                <td class="text-center">{{ number_format($order->pay, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">Due</td>
-                                <td class="text-center">{{ number_format($order->due, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="text-end">VAT</td>
-                                <td class="text-center">{{ number_format($order->vat, 2) }}</td>
-                            </tr>
+                           
                             <tr>
                             <td colspan="5" class="text-end fw-bold">Total</td>
                                 <td class="text-center fw-bold">

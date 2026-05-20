@@ -21,16 +21,13 @@
         </thead>
 
         <tbody>
-{{--            @php--}}
-{{--                dd(Cart::instance('order')->content())--}}
-{{--            @endphp--}}
 
             @foreach ($invoiceProducts as $index => $invoiceProduct)
             <tr>
                 <td class="align-middle">
                     @if($invoiceProduct['is_saved'])
                         <input type="hidden" name="invoiceProducts[{{$index}}][product_id]" value="{{ $invoiceProduct['product_id'] }}">
-                        {{ $invoiceProduct['product_name'] }} - ({{ $invoiceProduct['product_brand_name'] }}) - ({{ $invoiceProduct['product_unit_name'] }})
+                        {{ $invoiceProduct['product_name'] }} - ({{ $invoiceProduct['product_unit_name'] }})
                     @else
                         <div class="position-relative">
                             <input
@@ -53,7 +50,7 @@
                                             style="cursor:pointer;"
                                         >
                                             <div class="flex-grow-1 text-truncate">
-                                                {{ $product->name }} - ({{ $product->brand?->name ?? 'No Brand' }}) - ({{ $product->unit?->name ?? 'No Unit' }})
+                                                {{ $product->name }} - ({{ $product->unit?->name ?? 'No Unit' }})
                                             </div>
 
                                             <span class="text-danger fw-bold small">

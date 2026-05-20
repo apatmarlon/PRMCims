@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <div>
-            <h3 class="card-title">{{ __('Sales') }}</h3>
+            <h3 class="card-title">{{ __('Orders') }}</h3>
         </div>
 
         <div class="card-actions">
@@ -52,7 +52,7 @@
                             @include('inclues._sort-icon', ['field' => 'customer_id'])
                         </a>
                     </th>
-                    <th class="align-middle text-center">{{ __('Contact') }}</th>
+                   
                     <th class="align-middle text-center">{{ __('Location') }}</th>
                     <th class="align-middle text-center">
                         <a wire:click.prevent="sortBy('order_date')" href="#" role="button">
@@ -60,15 +60,7 @@
                             @include('inclues._sort-icon', ['field' => 'order_date'])
                         </a>
                     </th>
-                    <th class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('payment_type')" href="#" role="button">
-                            {{ __('Payment Type') }}
-                            @include('inclues._sort-icon', ['field' => 'payment_type'])
-                        </a>
-                    </th>
                     <th class="align-middle text-center">{{ __('Total') }}</th>
-                    <th class="align-middle text-center">{{ __('Payed Amount') }}</th>
-                    <th class="align-middle text-center">{{ __('Due') }}</th>
                     <th class="align-middle text-center">{{ __('Quantity') }}</th>
                     <th class="align-middle text-center">{{ __('Added By') }}</th>
                     <th class="align-middle text-center">{{ __('Note') }}</th>
@@ -86,14 +78,10 @@
                 <tr>
                     <td class="align-middle text-center">{{ $loop->iteration }}</td>
                     <td class="align-middle text-center">{{ $order->invoice_no }}</td>
-                    <td class="align-middle">{{ $order->customer->name }}</td>
-                    <td class="align-middle text-center">{{ $order->customer->phone }}</td>
+                    <td class="align-middle">{{ $order->customer->desc }}</td>
                     <td class="align-middle text-center">{{ $order->customer->address }}</td>
                     <td class="align-middle text-center"> {{ \Carbon\Carbon::parse($order->order_date)->format('d-m-Y') }}</td>
-                    <td class="align-middle text-center">{{ $order->payment_type }}</td>
                     <td class="align-middle text-center">{{ Number::currency($order->total, 'PHP') }}</td>
-                    <td class="align-middle text-center">{{ Number::currency($order->total_paid, 'PHP') }}</td>
-                    <td class="align-middle text-center">{{ Number::currency($order->due, 'PHP') }}</td>
                     <td class="align-middle text-center">{{ $order->total_items }}</td>
                     <td class="align-middle text-center">{{ $order->added_by }}</td>
                     <td class="align-middle text-center">{{ $order->note }}</td>

@@ -90,7 +90,30 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label for="customer_id" class="form-label">
+                                                Customer
+                                                <span class="text-danger">*</span>
+                                            </label>
 
+                                            <select name="customer_id" id="customer_id"
+                                                    class="form-select @error('customer_id') is-invalid @enderror"
+                                            >
+                                                <option selected="" disabled="">Select a customer:</option>
+                                                @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}" @if(old('customer_id', $product->customer_id) == $customer->id) selected="selected" @endif>{{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('customer_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-3">
                                             <label for="category_id" class="form-label">
@@ -146,7 +169,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="buying_price">
-                                                Buying price
+                                                Unit price
                                                 <span class="text-danger">*</span>
                                             </label>
 
@@ -163,51 +186,6 @@
                                                 {{ $message }}
                                             </div>
                                             @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="mb-3">
-                                            <label for="selling_price" class="form-label">
-                                                Selling price
-                                                <span class="text-danger">*</span>
-                                            </label>
-
-                                            <input type="text"
-                                                id="selling_price"
-                                                name="selling_price"
-                                                class="form-control"
-                                                readonly
-                                                value="{{ old('selling_price', $product->selling_price) }}">
-
-                                            @error('selling_price')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Margin (%)</label>
-                                            <input type="number"
-                                                id="margin_percent"
-                                                name="margin_percent"
-                                                class="form-control"
-                                                step="0.01"
-                                                value="{{ old('margin_percent', $product->margin_percent ?? '') }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Margin Amount</label>
-                                            <input type="number"
-                                                id="margin_amount"
-                                                name="margin_amount"
-                                                class="form-control"
-                                                step="0.01"
-                                                value="{{ old('margin_amount', $product->margin_amount ?? '') }}">
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6 mb-3">
@@ -304,74 +282,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="mb-3">
-                                            <label for="tax" class="form-label">
-                                                {{ __('Tax') }}
-                                            </label>
-
-                                            <input type="number"
-                                                   id="tax"
-                                                   name="tax"
-                                                   class="form-control @error('tax') is-invalid @enderror"
-                                                   min="0"
-                                                   placeholder="0"
-                                                   value="{{ old('tax', $product->tax) }}"
-                                            >
-
-                                            @error('tax')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6" hidden>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="tax_type">
-                                                {{ __('Tax Type') }}
-                                            </label>
-
-                                            <select name="tax_type" id="tax_type" 
-                                                    class="form-select @error('tax_type') is-invalid @enderror"
-                                            >
-                                                @foreach(\App\Enums\TaxType::cases() as $taxType)
-                                                <option value="{{ $taxType->value }}" @selected(old('tax_type', $product->tax_type) == $taxType->value)>
-                                                    {{ $taxType->label() }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('tax_type')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="mb-3">
-                                            <label for="code" class="form-label">
-                                                Code
-                                                <span class="text-danger">*</span>
-                                            </label>
-
-                                            <input type="text"
-                                                id="code"
-                                                name="code"
-                                                readonly
-                                                class="form-control @error('code') is-invalid @enderror"
-                                                value="{{ old('code', $product->code) }}"
-                                            >
-
-                                            @error('code')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                   
 
                                     <div class="col-md-12">
                                         <div class="mb-3 mb-0">

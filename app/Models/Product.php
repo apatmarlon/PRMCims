@@ -26,20 +26,24 @@ class Product extends Model
         'margin_percent',
         'margin_amount',
         'supplier_id',
+        'vat',
         'tax',
         'tax_type',
         'notes',
         'product_image',
         'category_id',
         'unit_id',
+        'expiry_date',
         'created_at',
         'updated_at'
     ];
 
     protected $casts = [
+        'expiry_date' => 'date',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
          'margin_amount' => 'decimal:2',
+         'vat' => 'boolean',
         'margin_percent' => 'decimal:2',
         'buying_price' => 'decimal:2',
         'selling_price' => 'decimal:2',

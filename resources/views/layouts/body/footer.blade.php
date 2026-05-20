@@ -5,7 +5,7 @@
                 <ul class="list-inline list-inline-dots mb-0">
                     <li class="list-inline-item">
                         <span class="text-secondary" style="color: black !important;">
-                            Developed by ICT
+                            Developed by ICT Division, Provincial Administration Office, Version 1.0.0
                         </span>
                     </li>
                 </ul>

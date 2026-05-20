@@ -33,7 +33,7 @@
 
                                 <img
                                     class="img-account-profile mb-2 bg-black"
-                                    src="{{ asset('assets/img/products/default.webp') }}"
+                                    src="{{ asset('assets/img/products/default.jpg') }}"
                                     id="image-preview"
                                 />
 
@@ -83,6 +83,45 @@
                                                  placeholder="Product name"
                                                  value="{{ old('name') }}"
                                         />
+                                    </div>
+                                         <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="customer_id">
+                                                {{ __('Customer') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+
+                                            @if ($customers->count() === 1)
+                                                <select name="customer_id" id="customer_id"
+                                                        class="form-select @error('customer_id') is-invalid @enderror"
+                                                        readonly
+                                                >
+                                                    @foreach ($customers as $customer)
+                                                        <option value="{{ $customer->id }}" selected>
+                                                            {{ $customer->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                <select name="customer_id" id="customer_id"
+                                                        class="form-select @error('customer_id') is-invalid @enderror"
+                                                >
+                                                    <option selected="" disabled="">
+                                                        Select a customer:
+                                                    </option>
+
+                                                    @foreach ($customers as $customer)
+                                                        <option value="{{ $customer->id }}" @if(old('customer_id') == $customer->id) selected="selected" @endif>{{ $customer->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+
+                                            @error('customer_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-6 col-md-6">
@@ -169,41 +208,20 @@
 
                                     <div class="col-sm-6 col-md-6">
                                         <x-input type="number"
-                                                 label="Buying Price"
-                                                 name="buying_price"
-                                                 id="buying_price"
-                                                 placeholder="0"
-                                                 value="{{ old('buying_price') }}"
-                                        />
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">        
-                                        <x-input type="number"
-                                                label="Selling Price"
-                                                name="selling_price"
-                                                id="selling_price"
+                                                label="Buying Price"
+                                                name="buying_price"
+                                                id="buying_price"
                                                 placeholder="0"
-                                                readonly
-                                        />
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <x-input type="number"
-                                                label="Margin (%)"
-                                                name="margin_percent"
-                                                id="margin_percent"
-                                                placeholder="0"
-                                                step="0.01"
+                                                value="{{ old('buying_price') }}"
                                         />
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6">
-                                        <x-input type="number"
-                                                label="Margin Amount"
-                                                name="margin_amount"
-                                                id="margin_amount"
-                                                placeholder="0"
-                                                step="0.01"
-                                        />
-                                    </div>
+                                    <!-- Hidden Selling Price -->
+                                    <input type="hidden"
+                                        name="selling_price"
+                                        id="selling_price"
+                                        value="{{ old('selling_price') }}">
+                                   
                                     <div class="col-sm-6 col-md-6 mb-3">
                                         <label for="brand_id" class="form-label">
                                             Brand
@@ -248,41 +266,18 @@
                                         />
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6">
-                                        <x-input type="number"
-                                                 label="Tax"
-                                                 name="tax"
-                                                 id="tax"
-                                                 placeholder="0"
-                                                 value="{{ old('tax') }}"
-                                        />
+                                   <div class="col-sm-6 col-md-6">
+                                        <label for="vat" class="form-label">Vat</label>
+
+                                        <select name="vat" id="vat" class="form-control">
+                                            <option value="0" {{ old('vat') == '0' ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ old('vat') == '1' ? 'selected' : '' }}>Yes</option>
+                                        </select>
                                     </div>
 
                                     
 
-                                    <div class="col-sm-6 col-md-6" hidden>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="tax_type">
-                                                {{ __('Tax Type') }}
-                                            </label>
-
-                                            <select name="tax_type" id="tax_type"
-                                                    class="form-select @error('tax_type') is-invalid @enderror"
-                                            >
-                                                @foreach(\App\Enums\TaxType::cases() as $taxType)
-                                                <option value="{{ $taxType->value }}" @selected(old('tax_type') == $taxType->value)>
-                                                    {{ $taxType->label() }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('tax_type')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    
 
                                     <div class="col-sm-6 col-md-6 mb-3">
                                         <label for="supplier_id" class="form-label">
@@ -305,7 +300,15 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
+                                    <div class="col-sm-6 col-md-6">
+                                        <x-input type="date"
+                                                 label="Expiry Date"
+                                                 name="expiry_date"
+                                                 id="expiry_date"
+                                                 placeholder="YYYY-MM-DD"
+                                                 value="{{ old('expiry_date') }}"
+                                        />
+                                    </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="notes" class="form-label">
@@ -348,51 +351,16 @@
 @endsection
 
 @pushonce('page-scripts')
-    <script src="{{ asset('assets/js/img-preview.js') }}"></script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+        const buyingPrice = document.getElementById('buying_price');
+        const sellingPrice = document.getElementById('selling_price');
 
-    const buyingPrice = document.getElementById('buying_price');
-    const marginPercent = document.getElementById('margin_percent');
-    const marginAmount = document.getElementById('margin_amount');
-    const sellingPrice = document.getElementById('selling_price');
+        buyingPrice.addEventListener('input', function () {
+            sellingPrice.value = this.value;
+        });
 
-    function calcFromPercent() {
-        let bp = parseFloat(buyingPrice.value) || 0;
-        let mp = parseFloat(marginPercent.value) || 0;
-
-        let amount = (bp * mp) / 100;
-        let sell = bp + amount;
-
-        marginAmount.value = amount.toFixed(2);
-        sellingPrice.value = sell.toFixed(2);
-    }
-
-    function calcFromAmount() {
-        let bp = parseFloat(buyingPrice.value) || 0;
-        let ma = parseFloat(marginAmount.value) || 0;
-
-        if (bp === 0) return;
-
-        let percent = (ma / bp) * 100;
-        let sell = bp + ma;
-
-        marginPercent.value = percent.toFixed(2);
-        sellingPrice.value = sell.toFixed(2);
-    }
-
-    function recalcAll() {
-        if (marginPercent.value !== '') {
-            calcFromPercent();
-        } else if (marginAmount.value !== '') {
-            calcFromAmount();
-        }
-    }
-
-    marginPercent.addEventListener('input', calcFromPercent);
-    marginAmount.addEventListener('input', calcFromAmount);
-    buyingPrice.addEventListener('input', recalcAll);
-});
+    });
 </script>
 @endpushonce

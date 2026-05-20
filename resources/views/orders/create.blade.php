@@ -50,14 +50,31 @@
                                         @enderror
                                     </div>
 
-                                    <x-tom-select
-                                        label="Customers"
-                                        id="customer_id"
-                                        name="customer_id"
-                                        placeholder="Select Customer"
-                                        :data="$customers"
-                                    />
+                                 
+                                        <x-tom-select
+                                            label="Customers"
+                                            id="customer_id"
+                                            name="customer_id"
+                                            placeholder="Select Customer"
+                                            :data="$customers"
+                                        />
+                                   
 
+                                  <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+
+                                        const customerSelect = document.getElementById('customer_id');
+
+                                        customerSelect.addEventListener('change', function () {
+
+                                            Livewire.dispatch('setCustomerId', {
+                                                customerId: this.value
+                                            });
+
+                                        });
+
+                                    });
+                                    </script>
                                     <div class="col-md-4">
                                         <label for="reference" class="form-label required">
                                             {{ __('Reference') }}
@@ -86,7 +103,10 @@
                                 </div>
 
 
-                                <livewire:order-form :cart-instance="'order'" />
+                               <livewire:order-form 
+                                    :cart-instance="'order'" 
+                                    :customer-id="old('customer_id')"
+                                />
                                 {{-- livewire:product-cart :cartInstance="'orders'"/>--}}
                             </div>
 

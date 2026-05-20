@@ -46,9 +46,13 @@
                                         <td>Name</td>
                                         <td>{{ $product->name }}</td>
                                     </tr>
+                                     <tr>
+                                        <td>Customer</td>
+                                        <td>{{ $product->customer?->name ?? '' }}</td>
+                                    </tr>
                                     <tr>
-                                        <td><span class="text-secondary">Code</span></td>
-                                        <td>{{ $product->code }}</td>
+                                        <td><span class="text-secondary">Product Id</span></td>
+                                        <td>{{ $product->id }}</td>
                                     </tr>
                                     <tr>
                                         <td>Barcode</td>
@@ -57,7 +61,7 @@
                                     <tr>
                                         <td>Category</td>
                                         <td>
-                                            <a href="{{ route('categories.show', $product->category) }}" class="badge bg-blue-lt">
+                                            <a href="" class="badge bg-blue-lt">
                                                 {{ $product->category->name }}
                                             </a>
                                         </td>
@@ -65,7 +69,7 @@
                                     <tr>
                                         <td>Unit</td>
                                         <td>
-                                            <a href="{{ route('units.show', $product->unit) }}" class="badge bg-blue-lt">
+                                            <a href="" class="badge bg-blue-lt">
                                                 {{ $product->unit->short_code }}
                                             </a>
                                         </td>
@@ -85,40 +89,21 @@
                                     </tr>
 
                                    <tr>
-                                    <td>Buying Price</td>
+                                    <td>Unit Price</td>
                                     <td>₱{{ number_format($product->buying_price, 2) }}</td>
-                                   </tr>
-                                   <tr>
-                                   <tr>
-                                        <td>Margin Percent</td>
-                                        <td>{{ $product->margin_percent }}%</td>
-                                   </tr>
-                                   <tr>
-                                        <td>Margin Amount</td>
-                                        <td>₱{{ number_format($product->margin_amount, 2) }}</td>
-                                   </tr>
-                                        <td>Selling Price</td>
-                                        <td>₱{{ number_format($product->selling_price, 2) }}</td>
                                    </tr>
                                         <td>Brand</td>
                                         <td>{{ $product->brand?->name ?? '-' }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Tax</td>
-                                        <td>
-                                            <span class="badge bg-red-lt">
-                                                {{ $product->tax }} %
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr hidden>
-                                        <td>Tax Type</td>
-                                        <td>{{ $product->tax_type->label() }}</td>
-                                    </tr>
+                                  
                                     <tr>
                                         <td>{{ __('Notes') }}</td>
                                         <td>{{ $product->notes }}</td>
                                     </tr>
+                                    
+                                     <tr>
+                                        <td>Expiry Date</td>
+                                        <td>{{ $product->expiry_date?->format('Y-m-d') ?? '-' }}</td>
                                 </tbody>
                             </table>
                         </div>

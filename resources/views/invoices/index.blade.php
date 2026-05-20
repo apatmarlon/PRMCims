@@ -26,9 +26,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-sm-6">
                                    
-                                    <div class="logo">
-                                        <h1>DYC Car Parts Trading & Rental Services</h1>
-                                    </div>
+                                   
                                 </div>
                                 <div class="col-lg-6 col-sm-6">
                                     <div class="invoice">
@@ -51,16 +49,15 @@
                             <div class="row">
                                 <div class="col-sm-6 mb-50">
                                     <h4 class="inv-title-1">Customer</h4>
-                                    <p class="inv-from-1">{{ $customer->name }}</p>
+                                    <p class="inv-from-1">{{ $customer->desc }}</p>
                                     <p class="inv-from-1">{{ $customer->phone }}</p>
                                     <p class="inv-from-1">{{ $customer->email }}</p>
                                     <p class="inv-from-2">{{ $customer->address }}</p>
                                 </div>
                                 <div class="col-sm-6 text-end mb-50">
-                                    <h4 class="inv-title-1">Store</h4>
-                                    <p class="inv-from-1">DYC Car Parts Trading & Rental Services</p>
-                                    <p class="inv-from-1">+639755641064</p>
-                                    <p class="inv-from-2">Abaga, Lala, Lanao del Norte, 9211 Philippines</p>
+                                    <p class="inv-from-1">Provincial Government of Lanao del Norte</p>
+                                    <p class="inv-from-1">PRMC Warehouse</p>
+                                    <p class="inv-from-2">Pigcarangan, Tubod, Lanao del Norte</p>
                                 </div>
                             </div>
                         </div>
@@ -115,12 +112,7 @@
                                                 {{ Number::currency($totalMarkup, 'PHP') }}
                                             </td>
                                         </tr> -->
-                                        <tr>
-                                            <td colspan="3" class="text-end"><strong>Tax</strong></td>
-                                            <td class="text-center">
-                                                {{ Number::currency(Cart::tax(), 'PHP') }}
-                                            </td>
-                                        </tr>
+                                       
                                         <tr>
                                             <td colspan="3" class="text-end"><strong>Total</strong></td>
                                             <td class="text-center">
@@ -147,70 +139,28 @@
                             {{ __('Back') }}
                         </a>
 
-                        <button class="btn btn-lg btn-download" type="button" data-bs-toggle="modal" data-bs-target="#modal">
-                            {{ __('Pay Now') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <form action="{{ route('orders.store') }}" method="POST" class="d-inline">
+                            @csrf
 
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title text-center mx-auto" id="modalCenterTitle">Invoice of {{ $customer->name }}<br/>Total Amount {{ Number::currency(Cart::total() + $totalMarkup, 'PHP') }}
-</h3>
-                </div>
-
-                <form action="{{ route('orders.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="modal-body">
                             <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-                            <input type="hidden" name="note" value="{{ $note }}"> 
+                            <input type="hidden" name="note" value="{{ $note }}">
                             <input type="hidden" name="order_date" value="{{ request('order_date') }}">
-                            <div class="mb-3">
-                                <!-- Form Group (type of product category) -->
-                                <label class="small mb-1" for="payment_type">Payment <span class="text-danger">*</span></label>
-                                <select class="form-control @error('payment_type') is-invalid @enderror" id="payment_type" name="payment_type">
-                                    <option selected="" disabled="">Select a payment:</option>
-                                    <option value="HandCash">HandCash</option>
-                                    <option value="Unpaid">Unpaid</option>
-                                </select>
-                                @error('payment_type')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
 
-                            <div class="mb-3">
-                                <label class="small mb-1" for="pay">Pay Now <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-solid @error('pay') is-invalid @enderror" id="pay" name="pay" placeholder="" value="{{ old('pay') }}" autocomplete="off"/>
-                                @error('pay')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
+                            <!-- AUTO PAYMENT -->
+                            <input type="hidden" name="payment_type" value="HandCash">
+                            <input type="hidden" name="pay" value="{{ (float) Cart::total() + $totalMarkup }}">
 
-                    <div class="modal-footer">
-                        <button class="btn btn-lg btn-danger" type="button" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button class="btn btn-lg btn-download" type="submit">
-                            Pay
-                        </button>
+                            <button class="btn btn-lg btn-download" type="submit">
+                                {{ __('Submit') }}
+                            </button>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 </body>
