@@ -4,7 +4,7 @@
 <div class="page-body">
     <div class="container-xl">
 
-    <h2 class="page-title row md-2 text-white">History of {{ $product->name }} - ({{ $product->brand?->name ?? '' }})  </h2>
+    <h2 class="page-title row md-2 text-black">History of {{ $product->name }} - ({{ $product->customer?->desc ?? '' }})  </h2>
         <table class="table table-bordered table-striped bg-white mt-3">
             <thead>
                 <tr>

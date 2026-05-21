@@ -61,30 +61,14 @@
                             @include('inclues._sort-icon', ['field' => 'date'])
                         </a>
                     </th>
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('supplier_id')" href="#" role="button">
-                            {{ __('Supplier') }}
-                            @include('inclues._sort-icon', ['field' => 'supplier_id'])
-                        </a>
-                    </th>
-                   <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('supplier_id')" href="#" role="button">
-                            {{ __('Supplier Address') }}
-                            @include('inclues._sort-icon', ['field' => 'supplier_id'])
-                        </a>
-                    </th>
+                  
                     <th scope="col" class="align-middle text-center">
                         <a wire:click.prevent="sortBy('total_amount')" href="#" role="button">
                             {{ __('Total') }}
                             @include('inclues._sort-icon', ['field' => 'total_amount'])
                         </a>
                     </th>
-                    <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('payment_status')" href="#" role="button">
-                            {{ __('Payment Status') }}
-                            @include('inclues._sort-icon', ['field' => 'payment_status'])
-                        </a>
-                    </th>
+                   
                     <th scope="col" class="align-middle text-center">
                         <a wire:click.prevent="sortBy('purchase_status')" href="#" role="button">
                             {{ __('Purchase Status') }}
@@ -114,12 +98,6 @@
                     <td class="align-middle text-center">
                         {{ $purchase->date->format('d-m-Y') }}
                     </td>
-                    <td class="align-middle">
-                        {{ $purchase->supplier?->name ?? '-' }}
-                    </td>
-                    <td class="align-middle">
-                        {{ $purchase->supplier?->address ?? '-' }}
-                    </td>
                     <td class="align-middle text-center">
                         {{ Number::currency($purchase->total_amount, 'PHP') }}
                     </td>
@@ -129,38 +107,7 @@
                         $today = \Carbon\Carbon::today();
                     @endphp
 
-                    <td class="align-middle text-center">
-
-                        {{-- PAID --}}
-                        @if ($purchase->payment_status == 0)
-                            <span class="badge bg-green text-white text-uppercase">
-                                PAID
-                            </span>
-
-                        {{-- UNPAID (Check if DUE or OVERDUE) --}}
-                        @elseif ($purchase->payment_status == 1)
-
-                            {{-- DUE: due date is today --}}
-                            @if ($dueDate->isToday())
-                                <span class="badge bg-orange text-white text-uppercase">
-                                    DUE
-                                </span>
-
-                            {{-- OVERDUE: due date is earlier than today --}}
-                            @elseif ($dueDate->isPast())
-                                <span class="badge bg-red text-white text-uppercase">
-                                    OVERDUE
-                                </span>
-
-                            {{-- Still on time (not due yet) --}}
-                            @else
-                                <span class="badge bg-blue text-white text-uppercase">
-                                   UNPAID
-                                </span>
-                            @endif
-
-                        @endif
-                    </td>
+                   
                     @if ($purchase->purchase_status === 1)
                         <td class="align-middle text-center">
                             <span class="badge bg-green text-white text-uppercase">

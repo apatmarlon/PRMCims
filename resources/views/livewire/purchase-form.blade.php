@@ -5,8 +5,6 @@
                 <th class="align-middle">Product</th>
                 <th class="align-middle text-center">Quantity</th>
                 <th class="align-middle text-center">Price</th>
-                <th class="align-middle text-center">Disc. (%)</th>
-                <th class="align-middle text-center">Disc. Amt</th>
                 <th class="align-middle text-center">Freebie</th>
                 <th class="align-middle text-center">Total</th>
                 <th class="align-middle text-center">Action</th>
@@ -40,10 +38,9 @@
                                         <!-- Main suggestion text -->
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="text-truncate" style="max-width: 200px;">
-                                                {{ $product->name }} - ({{ $product->brand?->name ?? 'No Brand' }})
+                                                {{ $product->name }} 
                                             </div>
                                             <div class="d-flex gap-2">
-                                                <span class="text-danger fw-bold small"> {{ $product->quantity }} </span>
                                                 <span class="text-white bg-secondary small text-nowrap"> {{ Number::currency($product->buying_price, 'PHP') }} </span>
                                             </div>
                                         </div>
@@ -51,10 +48,8 @@
                                         <!-- Hover details card -->
                                         <div class="product-hover-details">
                                             <strong>Name:</strong> {{ $product->name }} <br>
-                                            <strong>Brand:</strong> {{ $product->brand?->name ?? 'No Brand' }} <br>
+                                            <strong>Customer:</strong> {{ $product->customer?->name ?? 'No Customer' }} <br>
                                             <strong>Qty:</strong> {{ $product->quantity }} <br>
-                                            <strong>Supplier:</strong> {{ $product->supplier?->name ?? 'N/A' }} <br>
-                                            <strong>Price:</strong> {{ Number::currency($product->buying_price, 'PHP') }} <br>
                                         </div>
 
                                     </li>
@@ -103,24 +98,7 @@
                 @endif
             </td>
 
-            <!-- Discount % -->
-            <td class="align-middle text-center">
-                @if($invoiceProduct['is_saved'])
-                    {{ $invoiceProduct['discount_percentage'] ?? 0 }}%
-
-                    <input type="hidden"
-                        name="invoiceProducts[{{$index}}][discount_percentage]"
-                        value="{{ $invoiceProduct['discount_percentage'] ?? 0 }}">
-
-                @else
-                    <input type="number"
-                    min="0"
-                    wire:model.live="invoiceProducts.{{$index}}.discount_percentage"
-                    class="form-control text-center"
-                    placeholder="0"
-                    @disabled($invoiceProduct['is_freebie'])>
-                @endif
-            </td>
+       
 
             <!-- Discount Amount -->
             @php
@@ -133,13 +111,7 @@
                 $row_total = $isFreebie ? 0 : (($price * $qty) - ((($price * $qty) * $percent) / 100));
             @endphp
 
-            <td class="align-middle text-center">
-                {{ Number::currency($discount_amount, 'PHP') }}
-
-                <input type="hidden"
-                    name="invoiceProducts[{{$index}}][discount_amount]"
-                    value="{{ $discount_amount }}">
-            </td>
+           
             <td class="align-middle text-center">
                 @if($invoiceProduct['is_saved'])
                     @if($invoiceProduct['is_freebie'])
@@ -186,7 +158,7 @@
 
         <!-- Add product row -->
         <tr>
-            <td colspan="7"></td>
+            <td colspan="5"></td>
             <td class="text-center">
                 <button type="button" wire:click="addProduct" class="btn btn-icon btn-success">
                     ＋
@@ -196,7 +168,7 @@
 
         <!-- ========================= SUBTOTAL ========================= -->
         <tr>
-            <th colspan="7" class="align-middle text-end">
+            <th colspan="5" class="align-middle text-end">
                 Subtotal
             </th>
             <td class="text-center">
@@ -204,27 +176,10 @@
             </td>
         </tr>
 
-        <!-- ========================= TAXES ========================= -->
-        <tr>
-            <th colspan="7" class="align-middle text-end">
-                Taxes
-            </th>
-            <td class="text-center">
-                <input wire:model.blur="taxes" type="number"
-                       class="form-control w-75 d-inline"
-                       min="0" max="100">
-
-                %
-
-                @error('taxes')
-                    <em class="invalid-feedback">{{ $message }}</em>
-                @enderror
-            </td>
-        </tr>
 
         <!-- ========================= GRAND TOTAL ========================= -->
         <tr>
-            <th colspan="7" class="align-middle text-end">
+            <th colspan="5" class="align-middle text-end">
                 Total
             </th>
             <td class="text-center">

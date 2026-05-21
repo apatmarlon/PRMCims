@@ -141,19 +141,23 @@ class Product extends Model
     {
         return $this->hasMany(OrderReturnDetail::class);
     }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
     protected static function boot()
-{
-    parent::boot();
+    {
+        parent::boot();
 
-    static::creating(function ($product) {
-        $lastCode = Product::max('code');
+        static::creating(function ($product) {
+            $lastCode = Product::max('code');
 
-        if (!$lastCode) {
-            $product->code = '0001';
-        } else {
-            $nextNumber = (int) $lastCode + 1;
-            $product->code = str_pad($nextNumber, 4, STR_PAD_LEFT);
-        }
-    });
-}
+            if (!$lastCode) {
+                $product->code = '0001';
+            } else {
+                $nextNumber = (int) $lastCode + 1;
+                $product->code = str_pad($nextNumber, 4, STR_PAD_LEFT);
+            }
+        });
+    }
 }

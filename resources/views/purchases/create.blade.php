@@ -87,42 +87,11 @@
                                         </div>
                                         @enderror
                                     </div>
-                                     <div class="col-md-4">
-                                        <label for="payment_status" class="form-label required">
-                                            {{ __('Payment Status') }}
-                                        </label>
+                                     <!-- Auto Payment Status = Paid -->
+                                        <input type="hidden" name="payment_status" value="0">
 
-                                        <select id="payment_status" name="payment_status" class="form-control text-center">
-                                                <option value="" class="text-center">-- choose status--</option>
-                                                <option value="0" class="text-center"> Paid </option>
-                                                <option value="1" class="text-center"> Unpaid </option>
-                                                 
-                                        </select>
-                                        @error('payment_status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="payterm" class="form-label">
-                                            {{ __('Payment Terms (Days)') }}
-                                        </label>
-
-                                        <select id="payterm" name="payterm" class="form-control text-center">
-                                                <option value="" class="text-center">-- choose term --</option>
-                                                <option value="7" class="text-center"> 7 days </option>
-                                                <option value="15" class="text-center"> 15 days </option>
-                                                <option value="30" class="text-center"> 30 days </option>
-                                                <option value="45" class="text-center"> 45 days </option>             
-                                                <option value="60" class="text-center"> 60 days </option>   
-                                        </select>
-                                        @error('payterm')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
+                                        <!-- Auto Payment Term -->
+                                        <input type="hidden" name="payterm" value="0">
                                     
                                 </div>
 

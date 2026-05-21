@@ -14,14 +14,14 @@
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <div class="logo">
-                <h2 style="margin:0;color:green;">DYC Car Parts Trading & Rental Services</h2>
+                <h2 style="margin:0;color:green;">Provincial Government of Lanao del Norte</h2>
             </div>
         </div>
     </div>
     <h3>Product Stock Report</h3>
     <p>Date: {{ date('Y-m-d') }}</p>
-    @if($supplier)
-        <p>Supplier: {{ $supplier->name }}</p>
+    @if($customer)
+        <p>Customer: {{ $customer->name }}</p>
     @endif
    
 
@@ -30,7 +30,7 @@
             <tr>
                 <th>Product</th>
                 <th>Brand</th>
-                <th>Supplier</th>
+                <th>Customer</th>
                 <th>Quantity</th>
             </tr>
         </thead>
@@ -39,7 +39,7 @@
             <tr>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->brand?->name ?? 'N/A' }}</td>
-                <td>{{ $product->supplier?->name ?? 'N/A' }}</td>
+                <td>{{ $product->customer?->name ?? 'N/A' }}</td>
                 <td>{{ $product->quantity }}</td>
             </tr>
             @endforeach

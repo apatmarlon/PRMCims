@@ -21,46 +21,25 @@
         <div class="col-xl-12">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Information Supplier</span>
+                    <span>Information</span>
                     <a href="{{ route('purchases.print', $purchase->id) }}" class="btn btn-info" target="_blank">
                         <i class="fa fa-print"></i> Print
                     </a>
                 </div>
                 <div class="card-body">
-                    <!-- Form Row -->
-                    <div class="row gx-3 mb-3">
-                        <!-- Form Group (supplier name) -->
-                        <div class="col-md-6">
-                            <label class="small mb-1">Name</label>
-                            <div class="form-control form-control-solid">{{ $purchase->supplier->name }}</div>
-                        </div>
-                        <!-- Form Group (supplier email) -->
-                        <div class="col-md-6">
-                            <label class="small mb-1">Email</label>
-                            <div class="form-control form-control-solid">{{ $purchase->supplier->email }}</div>
-                        </div>
-                    </div>
-                    <!-- Form Row -->
-                    <div class="row gx-3 mb-3">
-                        <!-- Form Group (supplier phone number) -->
-                        <div class="col-md-6">
-                            <label class="small mb-1">Phone</label>
-                            <div class="form-control form-control-solid">{{ $purchase->supplier->phone }}</div>
-                        </div>
+                    <!-- Form Row --> 
+                   
                         <!-- Form Group (order date) -->
-                        <div class="col-md-6">
-                            <label class="small mb-1">Order Date</label>
-                            <div class="form-control form-control-solid">{{ $purchase->date ? $purchase->date->format('d-m-Y') : 'N/A' }}</div>
-                        </div>
-                    </div>
+                        
+                    
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1">No Purchase</label>
                             <div class="form-control form-control-solid">{{ $purchase->purchase_no }}</div>
                         </div>
                         <div class="col-md-6">
-                            <label class="small mb-1">Address</label>
-                            <div class="form-control form-control-solid">{{ $purchase->supplier->address }}</div>
+                            <label class="small mb-1">Purchase Date</label>
+                            <div class="form-control form-control-solid">{{ $purchase->date ? $purchase->date->format('d-m-Y') : 'N/A' }}</div>
                         </div>
                     </div>
 
@@ -70,17 +49,13 @@
                             <div class="form-control form-control-solid">{{ $purchase->createdBy ? $purchase->createdBy->name : '-' }}</div>
                         </div>
                         <div class="col-md-6">
-                            <label class="small mb-1">Updated By</label>
-                            <div class="form-control form-control-solid">{{ $purchase->updatedBy ? $purchase->updatedBy->name : '-' }}</div>
+                             <label  class="small mb-1">Total Amount</label>
+                             <div class="form-control form-control-solid">{{ Number::currency($purchase->total_amount, 'PHP')}}</div>
                         </div>
                     </div>
 
                 
-                    <div class="mb-3">
-                        <label  class="small mb-1">Total Amount</label>
-                        <div class="form-control form-control-solid">{{ Number::currency($purchase->total_amount, 'PHP')}}</div>
-                    </div>
-
+                   
                     @if ($purchase->status === \App\Enums\PurchaseStatus::PENDING)
                     <form action="{{ route('purchases.update', $purchase) }}" method="POST">
                         @csrf
@@ -113,12 +88,10 @@
                                         <th scope="col">No.</th>
                                        
                                         <th scope="col">Product Name</th>
-                                        <th scope="col">Product Code</th>
+                                        <th scope="col">Customer</th>
                                         <th scope="col">Current Stock</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Price</th>
-                                        <th scope="col">Discount Percent</th>
-                                        <th scope="col">Discount Amount</th>
                                         <th scope="col">Total</th>
                                     </tr>
                                 </thead>
@@ -127,7 +100,7 @@
                                     <tr>
                                         <td scope="row">{{ $loop->iteration  }}</td>
                                         <td scope="row">{{ $product->product->name }}</td>
-                                        <td scope="row">{{ $product->product->code }}</td>
+                                        <td scope="row">{{ $product->product->customer->name ?? 'No Customer' }}</td>
                                         <td scope="row"><span class="btn btn-warning">{{ $product->product->quantity }}</span></td>
                                         <td scope="row"><span class="btn btn-success">{{ $product->quantity }}</span></td>
                                           <td class="text-right amount">
@@ -137,8 +110,6 @@
                                                 {{ Number::currency($product->unitcost, 'PHP') }}
                                             @endif
                                         </td>
-                                        <td scope="row">{{ $product->discount_percentage }}%</td>
-                                        <td scope="row">{{ $product->discount_amount }}</td>
                                         
                                         <td class="text-right amount">
                                             @if($product->is_freebie)

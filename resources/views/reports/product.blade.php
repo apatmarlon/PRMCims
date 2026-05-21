@@ -34,15 +34,15 @@
                     <input type="number" name="max_qty" class="form-control" value="{{ $maxQty }}">
                 </div>
 
-                {{-- Supplier --}}
+                {{-- Customer --}}
                 <div class="col-md-3">
-                    <label>Supplier</label>
-                    <select name="supplier_id" class="form-control">
+                    <label>Customer</label>
+                    <select name="customer_id" class="form-control">
                         <option value="">All</option>
-                        @foreach($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}"
-                                @selected($supplierId == $supplier->id)>
-                                {{ $supplier->name }}
+                        @foreach($customers as $customer)
+                            <option value="{{ $customer->id }}"
+                                @selected($customerId == $customer->id)>
+                                {{ $customer->name }}
                             </option>
                         @endforeach
                     </select>
@@ -136,18 +136,16 @@
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>Brand</th>
-                        <th>Supplier</th>
+                        <th>Customer</th>
                         <th>Quantity</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($products as $product)
-                    <tr class="{{ $product->computed_quantity <= $product->quantity_alert ? 'table-danger' : '' }}">
+                    <tr class="{{ $product->quantity <= $product->quantity_alert ? 'table-danger' : '' }}">
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->brand?->name ?? 'N/A' }}</td>
-                        <td>{{ $product->supplier?->name ?? 'N/A' }}</td>
-                        <td>{{ $product->computed_quantity }}</td>
+                        <td>{{ $product->customer?->name ?? 'N/A' }}</td>
+                        <td>{{ $product->quantity }}</td>
                     </tr>
                     @empty
                     <tr>

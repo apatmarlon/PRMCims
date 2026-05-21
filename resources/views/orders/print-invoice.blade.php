@@ -124,9 +124,6 @@
                             <div class="invoice-top">
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-6">
-                                        <div class="logo">
-                                            <h1 style="margin:0;">DYC Car Parts Trading & Rental Services</h1>
-                                        </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
                                         <div class="invoice">
@@ -153,16 +150,15 @@
                                 <div class="row">
                                     <div class="col-sm-6 mb-50">
                                         <h4 class="inv-title-1">Customer</h4>
-                                        <p class="inv-from-1">{{ $order->customer->name }}</p>
+                                        <p class="inv-from-1">{{ $order->customer->desc }}</p>
                                         <p class="inv-from-1">{{ $order->customer->phone }}</p>
                                         <p class="inv-from-1">{{ $order->customer->email }}</p>
                                         <p class="inv-from-2">{{ $order->customer->address }}</p>
                                     </div>
                                     <div class="col-sm-6 text-end mb-50">
-                                        <h4 class="inv-title-1">Store</h4>
-                                        <p class="inv-from-1">DYC Car Parts Trading & Rental Services</p>
-                                        <p class="inv-from-1">+639755641064</p>
-                                        <p class="inv-from-2">Abaga, Lala, Lanao del Norte, 9211, Philippines</p>
+                                        <p class="inv-from-1">Provincial Government of Lanao del Norte</p>
+                                        <p class="inv-from-1">PRMC Warehouse</p>
+                                        <p class="inv-from-2">Pigcarangan, Tubod, Lanao del Norte</p>
                                     </div>
                                 </div>
                             </div>

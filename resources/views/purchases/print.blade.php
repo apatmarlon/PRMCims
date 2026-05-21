@@ -200,11 +200,16 @@
     <div class="invoice-top mb-4">
         <div class="row">
             <div class="col-lg-6 col-sm-6">
-                <div class="logo">
-                    <h1>DYC Car Parts Trading & Rental Services</h1>
-                </div>
-                <p class="mb-0"><strong>Phone:</strong> +639755641064</p>
-                <p class="mb-0">Abaga, Lala, Lanao del Norte, 9211, Philippines</p>
+                
+                   
+                    <h2> <img src="{{ asset('assets/img/logo.png') }}"
+                    style="
+                    height:25px;
+                    transform: scale(1.8);
+                "> &nbsp; Provincial Government of Lanao del Norte</h2>
+
+                <p class="mb-0"><strong>PRMC Warehouse</strong> </p>
+                <p class="mb-0">Pigcarangan, Tubod Lanao del Norte</p>
             </div>
         </div>
     </div>
@@ -213,35 +218,25 @@
 
     <!-- SUPPLIER INFORMATION -->
     <div class="card mb-4">
-        <div class="card-header fw-bold">Supplier Information</div>
+        <div class="card-header fw-bold">Purchase Details</div>
         <div class="card-body">
             <div class="supplier-grid">
                 <div class="col-box">
-                    <label>Name</label>
-                    <div class="form-control form-control-solid mb-3">{{ $purchase->supplier->name }}</div>
-
+                   
                     <label>Purchase No.</label>
                     <div class="form-control form-control-solid mb-3">{{ $purchase->purchase_no }}</div>
 
                     <label>Order Date</label>
                     <div class="form-control form-control-solid mb-3">{{ $purchase->date ? $purchase->date->format('M d, Y') : 'N/A' }}</div>
 
-                    <label>Total Amount</label>
-                    <div class="form-control form-control-solid mb-3">{{ Number::currency($purchase->total_amount, 'PHP') }}</div>
+                   
                 </div>
 
                 <div class="col-box">
-                    <label>Email</label>
-                    <div class="form-control form-control-solid mb-3">{{ $purchase->supplier->email }}</div>
-
-                    <label>Address</label>
-                    <div class="form-control form-control-solid mb-3">{{ $purchase->supplier->address }}</div>
-
-                    <label>Phone</label>
-                    <div class="form-control form-control-solid mb-3">{{ $purchase->supplier->phone }}</div>
-
                     <label>Created By</label>
                     <div class="form-control form-control-solid mb-3">{{ $purchase->createdBy?->name ?? '-' }}</div>
+                     <label>Total Amount</label>
+                    <div class="form-control form-control-solid mb-3">{{ Number::currency($purchase->total_amount, 'PHP') }}</div>
                 </div>
             </div>
         </div>
@@ -257,7 +252,7 @@
                         <tr>
                             <th style="width:40px;">#</th>
                             <th style="width:30%;">Product Name</th>
-                            <th style="width:20%;">Brand</th>
+                            <th style="width:20%;">Customer</th>
                             <th style="width:10%;">Stock</th>
                             <th style="width:10%;">Qty</th>
                             <th style="width:15%;">Unit Price</th>
@@ -269,7 +264,7 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="text-left">{{ $product->product->name }}</td>
-                            <td class="text-left">{{ $product->product->brand->name }}</td>
+                            <td class="text-left">{{ $product->product->customer->desc ?? 'No Customer' }}</td>
                             <td class="text-center"><span class="badge bg-warning badge-sm">{{ $product->product->quantity }}</span></td>
                             <td class="text-center"><span class="badge bg-success badge-sm">{{ $product->quantity }}</span></td>
                             <td class="text-right amount">
@@ -305,7 +300,9 @@
                 <span class="signature-label">Prepared By:</span>
                 <span class="signature-line"></span>
             </div>
-            <div class="signature-person">JOVETH LABARES</div>
+             <div class="signature-person">
+                {{ $purchase->createdBy?->name ?? 'N/A' }}
+             </div>
         </div>
 
         <!-- Checked By (RIGHT) -->
@@ -314,7 +311,6 @@
                 <span class="signature-label">Checked By:</span>
                 <span class="signature-line"></span>
             </div>
-            <div class="signature-person">JORDAN MARATAS</div>
         </div>
 
         <!-- Approved By (CENTERED BELOW) -->
@@ -323,7 +319,6 @@
                 <span class="signature-label">Approved By:</span>
                 <span class="signature-line"></span>
             </div>
-            <div class="signature-person">LYNDON G. CALICA</div>
         </div>
 
     </div>

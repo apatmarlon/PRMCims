@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Quotation;
+use App\Models\OrderReturn;
 
 class DashboardController extends Controller
 {
@@ -33,7 +34,10 @@ class DashboardController extends Controller
             ->where('date', today()->format('Y-m-d'))
             ->get()
             ->count();
-
+        $orderReturns = OrderReturn::count();
+        $todayOrderReturns = OrderReturn::query()
+            ->whereDate('created_at', today())
+            ->count();          
         return view('dashboard', [
             'products' => $products,
             'orders' => $orders,
@@ -43,6 +47,8 @@ class DashboardController extends Controller
             'categories' => $categories,
             'quotations' => $quotations,
             'todayQuotations' => $todayQuotations,
+            'orderReturns' => $orderReturns,
+            'todayOrderReturns' => $todayOrderReturns,  
         ]);
     }
 }

@@ -29,25 +29,9 @@
                 </div>
             </div>
             <div class="card-body">
+                
                 <div class="row gx-3 mb-3">
-                    <div class="col-md-6">
-                        <label class="small mb-1">Name</label>
-                        <div class="form-control form-control-solid">{{ $purchase->supplier->name }}</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="small mb-1">Email</label>
-                        <div class="form-control form-control-solid">{{ $purchase->supplier->email }}</div>
-                    </div>
-                </div>
-                <div class="row gx-3 mb-3">
-                    <div class="col-md-6">
-                        <label class="small mb-1">Phone</label>
-                        <div class="form-control form-control-solid">{{ $purchase->supplier->phone }}</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="small mb-1">Order Date</label>
-                        <div class="form-control form-control-solid">{{ $purchase->purchase_date ? $purchase->purchase_date->format('d-m-Y') : 'N/A' }}</div>
-                    </div>
+                    
                 </div>
                 <div class="row gx-3 mb-3">
                     <div class="col-md-6">
@@ -55,23 +39,20 @@
                         <div class="form-control">{{ $purchase->purchase_no }}</div>
                     </div>
                     <div class="col-md-6">
-                        <label class="small mb-1">Total</label>
-                        <div class="form-control form-control-solid">{{ $purchase->total_amount }}</div>
+                        <label class="small mb-1">Order Date</label>
+                        <div class="form-control form-control-solid">  {{ $purchase->date->format('d-m-Y') }}</div>
                     </div>
+                  
                 </div>
                 <div class="row gx-3 mb-3">
                     <div class="col-md-6">
                         <label class="small mb-1">Created By</label>
                         <div class="form-control form-control-solid">{{ $purchase->createdBy->name ?? '-' }}</div>
                     </div>
-                    <div class="col-md-6">
-                        <label class="small mb-1">Updated By</label>
-                        <div class="form-control form-control-solid">{{ $purchase->updatedBy->name ?? '-' }}</div>
+                      <div class="col-md-6">
+                        <label class="small mb-1">Total</label>
+                        <div class="form-control form-control-solid">{{ $purchase->total_amount }}</div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label  class="small mb-1">Address</label>
-                    <div class="form-control form-control-solid">{{ $purchase->supplier->address }}</div>
                 </div>
             </div>
 
@@ -123,7 +104,7 @@
                                             <th scope="col">No.</th>
                                             <th scope="col">Photo</th>
                                             <th scope="col">Product Name</th>
-                                            <th scope="col">Product Code</th>
+                                            <th scope="col">Customer</th>
                                             <th scope="col">Current Stock</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Price</th>
@@ -136,11 +117,11 @@
                                             <td scope="row">{{ $loop->iteration  }}</td>
                                             <td scope="row">
                                                 <div style="max-height: 80px; max-width: 80px;">
-                                                    <img class="img-fluid"  src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('assets/img/products/default.webp') }}">
+                                                    <img class="img-fluid"  src="{{ $item->product->product_image ? asset('storage/products/'.$item->product->product_image) : asset('assets/img/products/default.jpg') }}">
                                                 </div>
                                             </td>
-                                            <td scope="row">{{ $item->product->product_name }}</td>
-                                            <td scope="row">{{ $item->product->product_code }}</td>
+                                            <td scope="row">{{ $item->product->name }}</td>
+                                            <td scope="row">{{ $item->product->customer->name }}</td>
                                             <td scope="row"><span class="btn btn-warning">{{ $item->product->quantity }}</span></td>
                                             <td scope="row"><span class="btn btn-success">{{ $item->quantity }}</span></td>
                                             <td scope="row">{{ $item->unitcost }}</td>
